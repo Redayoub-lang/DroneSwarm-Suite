@@ -1,25 +1,25 @@
-# DroneSwarm-Suite (v2.0 Industrial Edition)
-## Multi-UAV 3D Swarm Coordination & Self-Healing Topology Engine
+# DroneSwarm-Suite (v3.0 Enterprise Edition)
+## Multi-UAV 3D Swarm Orchestration with Distributed MPC & MAVLink SITL Protocol
 
-An industrial-grade 3D Multi-UAV Swarm Coordination and Control Suite built on **Graph Laplacian Consensus Dynamics in $\mathbb{R}^3$**, **Self-Healing Topology Re-indexing**, and **Predictive 3D Artificial Potential Fields (APF)**.
+An enterprise-grade 3D Multi-UAV Swarm Orchestration Suite featuring **Distributed Model Predictive Control (DMPC)**, **MAVLink SITL Protocol Encoding**, and **Lossy RF Mesh Network Dynamics**.
 
 ---
 
-## Key Advanced Upgrades in v2.0
+## Enterprise Upgrades in v3.0
 
-* **True 3D Spatial Formations ($\mathbb{R}^3$):** Dynamic mathematically defined offsets for `3D_CUBE`, `SPHERE`, `HELIX`, and `3D_V_SHAPE`.
-* **Fault-Tolerant Self-Healing Graph:** Automated Laplacian matrix ($L = D - A$) topology reconstruction upon agent disconnection or hardware failure.
-* **3D Predictive APF Avoidance:** Dynamic force field vectors avoiding spherical obstacles and preventing inter-agent collisions in $SE(3)$.
-* **Height-Coded Tactical HUD Dashboard:** Real-time dual projection renderer displaying altitude gradients, link graphs, and active node status.
-* **Flight Data Logger:** Auto-exporting 3D positional trajectories to `swarm_telemetry_3d.csv`.
+* **Distributed Model Predictive Control (DMPC):** Finite-horizon ($H=5$) trajectory optimization under velocity ($v_{\max}$), acceleration ($a_{\max}$), and dynamic obstacle constraints.
+* **MAVLink SITL Telemetry Bridge:** Binary stream encoding (`SET_POSITION_TARGET_LOCAL_NED`) compatible with PX4 Autopilot and ArduPilot SITL.
+* **Lossy Network Mesh Simulator:** Realistic RF packet loss ($P_{\text{loss}} = 6\%$) and delay jitter simulation for ad-hoc network consensus resilience.
+* **MAVLink Tactical HUD:** Live visualization of MAVLink sequence counters, altitude dynamics, and topology links.
+* **Flight Data Logger:** Exports high-frequency flight telemetry to `swarm_mavlink_v3_telemetry.csv`.
 
 ---
 
 ## Mathematical Mechanics
 
-The position vector $\mathbf{p}_i = [x_i, y_i, z_i]^T \in \mathbb{R}^3$ of each follower agent $i$ evolves according to:
+DMPC optimization cost function over prediction horizon $H$:
 
-$$\mathbf{a}_i = -k_p \sum_{j \in \mathcal{N}_i(t)} a_{ij}(t) \left( (\mathbf{p}_i - \mathbf{p}_j) - \mathbf{d}_{ij}^*(t) \right) - k_v \sum_{j \in \mathcal{N}_i(t)} a_{ij}(t) (\mathbf{v}_i - \mathbf{v}_j) + \mathbf{F}_{\text{APF}, i}^{\text{3D}}$$
+$$\min_{\mathbf{u}_i(0:H-1)} \sum_{k=0}^{H-1} \left( \Vert{}\mathbf{p}_i(k) - \mathbf{p}_i^*(k)\Vert{}_{\mathbf{Q}}^2 + \Vert{}\mathbf{u}_i(k)\Vert{}_{\mathbf{R}}^2 + \sum_{j \in \mathcal{N}_i} V_{\text{obs}}(\Vert{}\mathbf{p}_i(k) - \mathbf{p}_j(k)\Vert{}) \right)$$
 
 ---
 
@@ -29,17 +29,5 @@ $$\mathbf{a}_i = -k_p \sum_{j \in \mathcal{N}_i(t)} a_{ij}(t) \left( (\mathbf{p}
 # Install dependencies
 pip install -r requirements.txt
 
-# Launch 3D Swarm Engine
+# Launch v3.0 Engine
 python drone_swarm_engine.py
-Interactive Controls
-1: Switch to 3D Cube Formation
-
-2: Switch to Spherical Formation
-
-3: Switch to Helix Formation
-
-4: Switch to 3D V-Shape Formation
-
-F: Inject Fault into UAV-3 to test Self-Healing Graph Topology
-
-Q: Terminate Engine & Export Telemetry
